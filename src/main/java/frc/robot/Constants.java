@@ -24,6 +24,30 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public final class Constants {
 
     // ====================================================================
+    // SHOOTER CONSTANTS (NEW)
+    // ====================================================================
+    public static final class Shooter {
+        // CAN IDs
+        public static final int kTopMotorId = 16;  //  67! 
+        public static final int kBottomMotorId = 17;//Diddy! LOL
+        // Target Speed
+        // Phoenix 6 uses Rotations Per Second (RPS), not RPM.
+        // 5000 RPM / 60 seconds = ~83.33 RPS
+        public static final double kTargetRPS = 5000.0 / 60.0;
+
+        // PID / Feedforward Gains (Slot 0)
+        // These are estimates for a Kraken X60.
+        public static final double kP = 0.3;  // Proportional Gain (Responds to error)
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kS = 0.25; // Static Friction (Volts to start moving)
+        public static final double kV = 0.12; // Velocity Feedforward (Volts per RPS)
+
+        // Current Limits
+        public static final int kCurrentLimit = 60; // Amps
+    }
+
+    // ====================================================================
     // TURRET CONSTANTS
     // ====================================================================
     public static final class Turret {
@@ -38,7 +62,7 @@ public final class Constants {
         public static final boolean kEnableCurrentLimit = true;
 
         // Control Settings
-        public static final double kManualSpeed = 0.05; // 20% Speed
+        public static final double kManualSpeed = 0.05; // 5% Speed
     }
 
     // ====================================================================

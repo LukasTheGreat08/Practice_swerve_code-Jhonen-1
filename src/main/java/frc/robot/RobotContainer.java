@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
-import frc.robot.Constants; // New import
+import frc.robot.Constants; 
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 
 public class RobotContainer {
@@ -32,6 +33,7 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = Constants.Swerve.createDrivetrain();
     public final TurretSubsystem turret = new TurretSubsystem();
+    public final ShooterSubsystem shooter = new ShooterSubsystem();
 
     public RobotContainer() {
         configureBindings();
@@ -51,10 +53,14 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(turret.turnRightCommand()); // Manual Turret Right
-        joystick.x().whileTrue(turret.turnLeftCommand());  // Manual Turret Left
+        // Bind Shooter to 'A' Button (Replaces previous Brake command)
+        joystick.a().whileTrue(shooter.runShooterCommand());
 
+        // Turret Bindings
+        joystick.b().whileTrue(turret.turnRightCommand()); 
+        joystick.x().whileTrue(turret.turnLeftCommand());
+
+        // SysId Bindings
         joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
